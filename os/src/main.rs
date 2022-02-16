@@ -28,17 +28,22 @@ pub fn rust_main() -> ! {
         fn ebss();
         fn boot_stack();
         fn boot_stack_top();
+        fn skernel();
+        fn ekernel();
+        fn _start();
     }
-    info!("stext: {:#x}", stext as usize);
-    info!("etext: {:#x}", etext as usize);
-    info!("srodata: {:#x}", srodata as usize);
-    info!("erodata: {:#x}", erodata as usize);
-    info!("sdata: {:#x}", sdata as usize);
-    info!("edata: {:#x}", edata as usize);
-    info!("boot_stack: {:#x}", boot_stack as usize);
-    info!("boot_stack_top: {:#x}", boot_stack_top as usize);
-    info!("sbss: {:#x}", sbss as usize);
-    info!("ebss: {:#x}", ebss as usize);
+    info!(".text: [{:#x} {:#x}]", stext as usize, etext as usize);
+    info!(".rodata: [{:#x} {:#x}]", srodata as usize, erodata as usize);
+    info!(".data: [{:#x} {:#x}]", sdata as usize, edata as usize);
+    info!(".bss: [{:#x} {:#x}]", sbss as usize, ebss as usize);
+    info!(
+        "stack: [{:#x} {:#x}]",
+        boot_stack as usize, boot_stack_top as usize
+    );
+    info!(
+        "kernel: [{:#x} {:#x}] start = {:#x}",
+        skernel as usize, ekernel as usize, _start as usize
+    );
 
     debug!("hello world");
     error!("now shutdown");

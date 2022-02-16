@@ -1,12 +1,13 @@
 #![no_std]
 #![no_main]
+#![feature(panic_info_message)]
 
+#[macro_use]
+mod console;
 mod lang_items;
 mod sbi;
 
 use core::arch::global_asm;
-
-use sbi::console_putchar;
 
 global_asm!(include_str!("entry.asm"));
 
@@ -14,11 +15,8 @@ global_asm!(include_str!("entry.asm"));
 pub fn rust_main() -> ! {
     clear_bss();
 
-    let str = "hello world\n";
-    for &ele in str.as_bytes() {
-        console_putchar(ele as usize);
-    }
-    loop {}
+    println!("hello world");
+    panic!("something wrong!!");
 }
 
 fn clear_bss() {

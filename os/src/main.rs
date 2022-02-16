@@ -17,6 +17,14 @@ global_asm!(include_str!("entry.asm"));
 pub fn rust_main() -> ! {
     clear_bss();
 
+    print_boot_info();
+
+    debug!("hello world");
+    error!("now shutdown");
+    shutdown();
+}
+
+fn print_boot_info() {
     extern "C" {
         fn stext();
         fn etext();
@@ -44,10 +52,6 @@ pub fn rust_main() -> ! {
         "kernel: [{:#x} {:#x}] start = {:#x}",
         skernel as usize, ekernel as usize, _start as usize
     );
-
-    debug!("hello world");
-    error!("now shutdown");
-    shutdown();
 }
 
 fn clear_bss() {

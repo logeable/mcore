@@ -1,12 +1,15 @@
 RELEASE_TARGET=target/riscv64gc-unknown-none-elf/release
-helloworld:
-	cargo build --release --bin helloworld
 
-helloworld.bin: helloworld
-	rust-objcopy --strip-all ${RELEASE_TARGET}/$< -O binary ${RELEASE_TARGET}/$@
+SRC=$(notdir $(wildcard src/bin/*.rs))
+BINS=$(patsubst %.rs, %.bin, $(SRC))
 
-build:
-	cargo build --release
+bin/%:
+	cargo build --release --bin $*
+
+%.bin: bin/%
+	rust-objcopy --strip-all ${RELEASE_TARGET}/$* -O binary $(RELEASE_TARGET)/$*.bin
+
+bins: $(BINS)
 
 clean:
 	cargo clean

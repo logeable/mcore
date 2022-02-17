@@ -9,11 +9,9 @@ const TRACE_GRAY: u8 = 90;
 
 struct KernelLogger;
 
-static LOGGER: KernelLogger = KernelLogger;
-
 macro_rules! with_color {
     ($args: ident, $color: ident) => {
-        format_args!("\x1b[{}m{}\x1b[0m", $color, $args,);
+        format_args!("\x1b[{}m{}\x1b[0m", $color, $args,)
     };
 }
 
@@ -35,6 +33,7 @@ impl log::Log for KernelLogger {
 }
 
 pub fn init() -> Result<(), SetLoggerError> {
+    static LOGGER: KernelLogger = KernelLogger;
     set_logger(&LOGGER).map(|()| set_max_level(level_filter_from_compile_env()))
 }
 

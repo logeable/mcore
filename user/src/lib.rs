@@ -7,7 +7,7 @@ pub mod console;
 mod lang_items;
 mod syscall;
 
-use crate::syscall::sys_exit;
+use syscall::*;
 
 #[no_mangle]
 #[link_section = ".text.entry"]
@@ -30,6 +30,10 @@ fn clear_bss() {
     (sbss as usize..ebss as usize).for_each(|a| unsafe { (a as *mut u8).write_volatile(0) });
 }
 
-fn exit(state: i32) -> isize {
+pub fn write(fd: usize, buf: &[u8]) -> isize {
+    sys_write(fd, buf)
+}
+
+pub fn exit(state: i32) -> isize {
     sys_exit(state)
 }

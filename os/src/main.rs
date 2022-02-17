@@ -4,21 +4,24 @@
 
 #[macro_use]
 mod console;
+mod klog;
 mod lang_items;
-mod log;
 mod sbi;
 
 use crate::sbi::shutdown;
 use core::arch::global_asm;
+use log::{debug, error, info};
 
 global_asm!(include_str!("entry.asm"));
 
 #[no_mangle]
 pub fn rust_main() -> ! {
     clear_bss();
+    klog::init().unwrap();
 
     print_boot_info();
 
+    print!("hello world\n");
     debug!("hello world");
     error!("now shutdown");
     shutdown();

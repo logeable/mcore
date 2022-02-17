@@ -13,6 +13,7 @@ use core::arch::global_asm;
 use log::{debug, error, info};
 
 global_asm!(include_str!("entry.asm"));
+global_asm!(include_str!("link_app.S"));
 
 #[no_mangle]
 pub fn rust_main() -> ! {

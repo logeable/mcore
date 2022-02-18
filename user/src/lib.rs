@@ -18,6 +18,7 @@ pub extern "C" fn _start() -> ! {
 }
 
 #[linkage = "weak"]
+#[no_mangle]
 fn main() -> i32 {
     panic!("no main")
 }

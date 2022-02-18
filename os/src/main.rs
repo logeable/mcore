@@ -4,10 +4,12 @@
 
 #[macro_use]
 mod console;
+mod batch;
 mod klog;
 mod lang_items;
 mod sbi;
 
+use crate::batch::AppManager;
 use crate::sbi::shutdown;
 use core::arch::global_asm;
 use log::{debug, error, info};
@@ -22,10 +24,14 @@ pub fn rust_main() -> ! {
 
     print_boot_info();
 
-    print!("hello world\n");
-    debug!("hello world");
+    up();
     error!("now shutdown");
     shutdown();
+}
+
+fn up() {
+    let app_mgr = AppManager::new();
+    app_mgr.dump();
 }
 
 fn print_boot_info() {

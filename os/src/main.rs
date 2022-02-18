@@ -30,8 +30,9 @@ pub fn rust_main() -> ! {
 }
 
 fn up() {
-    let app_mgr = AppManager::new();
+    let mut app_mgr = AppManager::new();
     app_mgr.dump();
+    app_mgr.run_next();
 }
 
 fn print_boot_info() {

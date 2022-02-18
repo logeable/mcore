@@ -1,4 +1,8 @@
+use core::arch::asm;
+
 const MAX_APP_NUM: usize = 10;
+const APP_BASE_ADDRESS: usize = 0x80400000;
+const APP_SIZE_LIMIT: usize = 0x20000;
 
 pub struct AppManager {
     num_app: usize,
@@ -28,7 +32,36 @@ impl AppManager {
         println!("num_app: {}", self.num_app);
         println!("cur_app: {}", self.current_app);
         for i in 0..self.num_app {
-            println!("app[{}]: {:#x}", i, self.app_start[i]);
+            println!(
+                "app_{}: [{:#x} - {:#x}] {}B",
+                i,
+                self.app_start[i],
+                self.app_start[i + 1],
+                self.app_start[i + 1] - self.app_start[i]
+            );
         }
+    }
+
+    unsafe fn load_app(&self, id: usize) {
+        if id >= self.num_app {
+            panic!("id {} invalid", id);
+        }
+        println!("os loading app_{}", id);
+        asm!("fence.i");
+
+        core::slice::from_raw_parts_mut(APP_BASE_ADDRESS as usize as *mut u8, APP_SIZE_LIMIT)
+            .fill(0);
+        let app_src = core::slice::from_raw_parts(
+            self.app_start[id] as *const u8,
+            self.app_start[id + 1] - self.app_start[id],
+        );
+        let app_dst = core::slice::from_raw_parts_mut(APP_BASE_ADDRESS as *mut u8, app_src.len());
+
+        app_dst.copy_from_slice(app_src);
+    }
+
+    pub fn run_next(&mut self) {
+        unsafe { self.load_app(self.current_app) };
+        self.current_app = (self.current_app + 1) % self.num_app;
     }
 }

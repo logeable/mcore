@@ -7,3 +7,5 @@ edition = "2021"
 
 [dependencies]
 log = "0.4.14"
+riscv = "0.7.0"
+lazy_static = {version = "1.4.0", features=["spin_no_std"]}

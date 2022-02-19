@@ -8,6 +8,10 @@ mod batch;
 mod klog;
 mod lang_items;
 mod sbi;
+mod syscall;
+mod trap;
+#[macro_use]
+extern crate lazy_static;
 
 use crate::batch::AppManager;
 use crate::sbi::shutdown;
@@ -21,21 +25,16 @@ global_asm!(include_str!("link_app.S"));
 pub fn rust_main() -> ! {
     clear_bss();
     klog::init().unwrap();
+    print_sections_info();
 
-    print_boot_info();
-
-    up();
+    trap::init();
+    batch::init();
+    batch::run_next_app();
     error!("now shutdown");
     shutdown();
 }
 
-fn up() {
-    let mut app_mgr = AppManager::new();
-    app_mgr.dump();
-    app_mgr.run_next();
-}
-
-fn print_boot_info() {
+fn print_sections_info() {
     extern "C" {
         fn stext();
         fn etext();

@@ -6,6 +6,10 @@ extern crate user_lib;
 
 #[no_mangle]
 fn main() -> i32 {
-    println!("hello world");
+    let mut result = 0;
+    for i in 0..100 {
+        result += i;
+    }
+    println!("hello world {}", result);
     return 0;
 }

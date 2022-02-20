@@ -8,7 +8,10 @@ extern crate user_lib;
 fn main() -> i32 {
     let mut result = 0;
     for i in 0..100 {
-        result += i;
+        println!(
+            "{} {} {} {} {} {} {} {} {} {}",
+            i, i, i, i, i, i, i, i, i, i
+        );
     }
     println!("hello world {}", result);
     return 0;

@@ -44,6 +44,7 @@ __restore:
         LOAD_GP %n
         .set n, n+1
     .endr
+    addi sp, sp, 34*8
     csrrw sp, sscratch, sp
     sret
 

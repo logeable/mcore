@@ -4,30 +4,37 @@
 
 #[macro_use]
 mod console;
+mod batch;
 mod klog;
 mod lang_items;
 mod sbi;
+mod syscall;
+mod trap;
+#[macro_use]
+extern crate lazy_static;
 
+use crate::batch::AppManager;
 use crate::sbi::shutdown;
 use core::arch::global_asm;
 use log::{debug, error, info};
 
 global_asm!(include_str!("entry.asm"));
+global_asm!(include_str!("link_app.S"));
 
 #[no_mangle]
 pub fn rust_main() -> ! {
     clear_bss();
     klog::init().unwrap();
+    print_sections_info();
 
-    print_boot_info();
-
-    print!("hello world\n");
-    debug!("hello world");
+    trap::init();
+    batch::init();
+    batch::run_next_app();
     error!("now shutdown");
     shutdown();
 }
 
-fn print_boot_info() {
+fn print_sections_info() {
     extern "C" {
         fn stext();
         fn etext();

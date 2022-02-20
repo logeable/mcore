@@ -15,8 +15,11 @@ gdb:
 os.bin: os
 	rust-objcopy --strip-all target/riscv64gc-unknown-none-elf/release/os -O binary target/riscv64gc-unknown-none-elf/release/os.bin
 
-os:
+os: app
 	cargo build --release
+
+app:
+	$(MAKE) -C ../user
 
 clean:
 	cargo clean

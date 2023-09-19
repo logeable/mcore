@@ -1,6 +1,5 @@
 *.swp
-
-
+os/src/link_app.S
 # Added by cargo
 
 /target

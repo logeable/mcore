@@ -1,4 +1,4 @@
-RELEASE_TARGET=target/riscv64gc-unknown-none-elf/release
+RELEASE_TARGET=../target/riscv64gc-unknown-none-elf/release
 
 SRC=$(notdir $(wildcard src/bin/*.rs))
 BINS=$(patsubst %.rs, %.bin, $(SRC))

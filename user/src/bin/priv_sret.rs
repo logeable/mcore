@@ -10,5 +10,5 @@ fn main() -> i32 {
     unsafe {
         asm!("sret");
     }
-    return 0;
+    0
 }

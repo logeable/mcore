@@ -6,7 +6,7 @@ extern crate user_lib;
 
 #[no_mangle]
 fn main() -> i32 {
-    let mut result = 0;
+    let result = 0;
     for i in 0..100 {
         println!(
             "{} {} {} {} {} {} {} {} {} {}",
@@ -14,5 +14,5 @@ fn main() -> i32 {
         );
     }
     println!("hello world {}", result);
-    return 0;
+    0
 }

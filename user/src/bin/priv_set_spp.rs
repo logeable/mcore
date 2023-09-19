@@ -13,5 +13,5 @@ fn main() -> i32 {
     unsafe {
         sstatus::set_spp(SPP::User);
     }
-    return 0;
+    0
 }

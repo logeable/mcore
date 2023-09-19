@@ -13,15 +13,15 @@ mod trap;
 #[macro_use]
 extern crate lazy_static;
 
-use crate::batch::AppManager;
 use crate::sbi::shutdown;
 use core::arch::global_asm;
-use log::{debug, error, info};
+use log::info;
 
 global_asm!(include_str!("entry.asm"));
 global_asm!(include_str!("link_app.S"));
 
 #[no_mangle]
+#[allow(unreachable_code)]
 pub fn rust_main() -> ! {
     clear_bss();
     klog::init().unwrap();
@@ -30,8 +30,7 @@ pub fn rust_main() -> ! {
     trap::init();
     batch::init();
     batch::run_next_app();
-    error!("now shutdown");
-    shutdown();
+    unreachable!("now shutdown");
 }
 
 fn print_sections_info() {

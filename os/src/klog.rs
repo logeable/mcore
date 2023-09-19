@@ -52,9 +52,7 @@ fn level_to_color(level: Level) -> u8 {
 }
 
 fn level_filter_from_compile_env() -> LevelFilter {
-    match option_env!("LOG") {
-        level => str_to_level_filter(level.unwrap_or("off")),
-    }
+    str_to_level_filter(option_env!("LOG").unwrap_or("off"))
 }
 
 fn str_to_level_filter(level: &str) -> LevelFilter {

@@ -12,7 +12,7 @@ impl TrapContext {
         self.x[2] = sp;
     }
     pub fn app_init_context(entry: usize, sp: usize) -> Self {
-        let mut sstatus = sstatus::read();
+        let sstatus = sstatus::read();
         unsafe {
             sstatus::set_spp(SPP::User);
         }

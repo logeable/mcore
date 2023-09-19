@@ -82,8 +82,7 @@ impl AppManager {
         println!("os loading app_{}", id);
         asm!("fence.i");
 
-        core::slice::from_raw_parts_mut(APP_BASE_ADDRESS as usize as *mut u8, APP_SIZE_LIMIT)
-            .fill(0);
+        core::slice::from_raw_parts_mut(APP_BASE_ADDRESS as *mut u8, APP_SIZE_LIMIT).fill(0);
         let app_src = core::slice::from_raw_parts(
             self.app_start[id] as *const u8,
             self.app_start[id + 1] - self.app_start[id],
